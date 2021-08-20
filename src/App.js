@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import Login from "./components/Login";
 import BubblePage from "./components/BubblePage";
@@ -8,28 +8,40 @@ import "./styles.scss";
 
 function App() {
 
-  const logout = (event) => {
+  const Logout = (event) => {
+    useEffect(() => {
       axiosWithAuth()
-        .post('/logout')
-        .then(response => {
-          localStorage.removeItem("token")
-          window.location.href = "/login"
-        })
-        .catch(error => {
-          console.log(error);
-        })
+      .post('/logout')
+      .then(response => {
+        localStorage.removeItem("token")
+        window.location.href = "/login"
+      })
+      .catch(error => {
+        console.log(error);
+      })
+    }, [])
   }
 
   return (
     <Router>
-      <div className="App">
+      <div className = "bubblesApp">
         <header>
           Color Picker Sprint Challenge
-          <a data-testid="logoutButton" onClick = {logout} href="#">logout</a>
+          <Link to = "/login">Login</Link>
+          {localStorage.getItem("token") && 
+              <div>
+                <Link to="/protected">Friends</Link>
+              </div>
+          }
+          <Link data-testid="logoutButton" onClick={Logout}>Logout</Link>
+          {/* a href link button */}
+          {/* <a data-testid="logoutButton" onClick = {logout} href="#">logout</a> */} 
         </header>
-        <PrivateRoute path = "/protected" component = {BubblePage}/>
-        <Route exact path = "/" component = {Login} />
-        <Route path = "/login" component = {Login} />
+        <Switch>
+          <PrivateRoute path = "/protected" component = {BubblePage}/>
+          <Route exact path = "/" component = {Login} />
+          <Route path = "/login" component = {Login} />
+        </Switch>
       </div>
     </Router>
   );
