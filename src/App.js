@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import Login from "./components/Login";
@@ -32,7 +32,7 @@ function App() {
               </div>
           }
           {/* <button data-testid="logoutButton" onClick={Logout}>Button</button> */}
-          <Link data-testid="logoutButton" onClick={Logout}>Logout</Link>
+          <Link to = "/login" data-testid="logoutButton" onClick={Logout}>Logout</Link>
           {/* a href link button */}
           {/* <a data-testid="logoutButton" onClick = {logout} href="#">logout</a> */} 
         </header>

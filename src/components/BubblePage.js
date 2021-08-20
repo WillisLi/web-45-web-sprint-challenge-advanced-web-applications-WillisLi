@@ -10,10 +10,16 @@ const BubblePage = () => {
   const [editing, setEditing] = useState(false);
 
   useEffect(() => {
-    fetchColorService()
-      .then(response => {
-        setColors(response)
+    let isMounted = true
+    fetchColorService().then(response => {
+        console.log(response)
+        if(isMounted)
+          setColors(response)
       })
+      .catch(error => {
+        console.log(error);
+      })
+      return () => { isMounted = false }
   }, [])
 
   const toggleEdit = (value) => {
