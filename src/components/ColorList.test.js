@@ -22,14 +22,13 @@ test("Renders a list of colors without errors", () => {
 });
 
 test("Renders the EditForm when editing = true and does not render EditForm when editing = false", () => {
-    const mockToggleEdit = jest.fn()
-    const mockEditing = jest.fn();
+    const {rerender} = render(<ColorList colors = {testList} editing = {false} />)
 
-    render(<ColorList colors = {testList} toggleEdit = {mockToggleEdit} editing = {mockEditing} />)
+    let editMenu = screen.queryByTestId("edit_menu")
+    expect(editMenu).not.toBeInTheDocument();
 
-    const editColor = screen.queryByTestId("color");
-    userEvent.click(editColor);
+    rerender(<ColorList colors = {testList} editing = {true} />)
 
-    expect(mockToggleEdit).toHaveBeenCalled();
-    expect(mockEditing).toBeTruthy();
+    editMenu = screen.queryByTestId("edit_menu")  
+    expect(editMenu).toBeInTheDocument(); 
 });

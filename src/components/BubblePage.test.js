@@ -1,30 +1,43 @@
 import React from 'react';
 import MutationObserver from 'mutationobserver-shim';
 
-import { render, screen, waitFor} from "@testing-library/react";
+import { render, screen, waitFor, act, fireEvent} from "@testing-library/react";
 import BubblePage from './BubblePage';
 import fetchColorService from './../services/fetchColorService';
 jest.mock("./../services/fetchColorService");
 
-const testColor = {
+const testColors = [{
     code: {hex: "#810040"},
     color: "Maroon",
     id: 1,
-}
+}]
 
 test("Renders without errors", ()=> {
-    fetchColorService.mockResolvedValueOnce(testColor);
+    fetchColorService.mockResolvedValueOnce(testColors);
     render(<BubblePage />);
 });
 
 test("Renders appropriate number of colors passed in through mock", async ()=> {
-    fetchColorService.mockResolvedValueOnce(testColor); 
+    await fetchColorService.mockResolvedValueOnce( 
+        [
+            { 
+                code: {hex: "#810040"},
+                color: "Maroon",
+                id: 1,
+            },
+            {
+                code: {hex: "#810050"},
+                color: "Maroon2",
+                id: 2, 
+            },
+        ]); 
 
-    render(<BubblePage />); 
+    // render(<BubblePage />);  
+    await act( async () => render(<BubblePage/>));
 
-    const colors = screen.getAllByTestId("color"); 
+    const colors = await screen.findAllByTestId("color");   
 
-    await waitFor(() => {
-        expect(colors).toHaveLength(1);  
-    })
+    await waitFor(() => { 
+        expect(colors).toHaveLength(2);
+    }) 
 }); 
