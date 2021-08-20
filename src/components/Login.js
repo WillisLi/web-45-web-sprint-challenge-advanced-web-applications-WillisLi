@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useHistory } from "react-router";
 
 const initialState = {
     username: "Lambda",
@@ -16,6 +17,8 @@ const Login = () => {
   const [ credentials, setCredentials ] = useState(initialState);
   const [ error, setError ] = useState(errorState);
 
+  const { push } = useHistory();
+
   const changeHandler = (event) => {
       setCredentials({
           ...credentials,
@@ -26,14 +29,21 @@ const Login = () => {
   const login = (event) => {
     event.preventDefault();
 
-    axios.
+    axios.post("http://localhost:5000/api/login")
+      .then(response => {
+          console.log(response)
+          localStorage.setItem('token', response.data.payload);
+          push('/protected')
+      })
+      .catch(error => {
+          console.log(error);
+      })
   }
 
   return (
     <div>
       <h1>Welcome to the Bubble App!</h1>
       <div data-testid="loginForm" className="login-form">
-        <h2>Build login form here</h2>
         <form onSubmit = {login}>
           <label>Username:
             <input
