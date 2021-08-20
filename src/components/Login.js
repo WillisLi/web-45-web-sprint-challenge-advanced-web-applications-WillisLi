@@ -29,15 +29,19 @@ const Login = () => {
   const login = (event) => {
     event.preventDefault();
 
-    axios.post("http://localhost:5000/api/login")
-      .then(response => {
+    if (credentials.username === "" || credentials.password === "") {
+      setError("Username or Password not valid.")
+    } else {
+      axios.post("http://localhost:5000/api/login")
+        .then(response => {
           console.log(response)
           localStorage.setItem('token', response.data.payload);
           push('/protected')
-      })
-      .catch(error => {
+        })
+        .catch(error => {
           console.log(error);
-      })
+        })
+    }
   }
 
   return (
