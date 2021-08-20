@@ -9,17 +9,16 @@ import "./styles.scss";
 function App() {
 
   const Logout = (event) => {
-    useEffect(() => {
-      axiosWithAuth()
+    axiosWithAuth()
       .post('/logout')
       .then(response => {
+        console.log(response)
         localStorage.removeItem("token")
         window.location.href = "/login"
       })
       .catch(error => {
         console.log(error);
       })
-    }, [])
   }
 
   return (
@@ -33,6 +32,7 @@ function App() {
                 <Link to="/protected">Friends</Link>
               </div>
           }
+          {/* <button data-testid="logoutButton" onClick={Logout}>Button</button> */}
           <Link data-testid="logoutButton" onClick={Logout}>Logout</Link>
           {/* a href link button */}
           {/* <a data-testid="logoutButton" onClick = {logout} href="#">logout</a> */} 

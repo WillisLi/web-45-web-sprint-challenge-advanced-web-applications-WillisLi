@@ -5,7 +5,7 @@ const fetchColorService = () => {
     axiosWithAuth.get("/colors")
         .then(response => {
             console.log(response)
-            // return response;
+            return response;
         })
         .catch(error => {
             console.log(error);

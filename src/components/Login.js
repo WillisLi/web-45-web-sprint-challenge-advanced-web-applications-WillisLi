@@ -7,15 +7,11 @@ const initialState = {
     password: "School",
 }
 
-const errorState = {
-    error: ""
-}
-
 const Login = () => {
   // make a post request to retrieve a token from the api
   // when you have handled the token, navigate to the BubblePage route
   const [ credentials, setCredentials ] = useState(initialState);
-  const [ error, setError ] = useState(errorState);
+  const [ error, setError ] = useState("");
 
   const { push } = useHistory();
 
@@ -32,9 +28,8 @@ const Login = () => {
     if (credentials.username === "" || credentials.password === "") {
       setError("Username or Password not valid.")
     } else {
-      axios.post("http://localhost:5000/api/login")
+      axios.post("http://localhost:5000/api/login", credentials)
         .then(response => {
-          console.log(response)
           localStorage.setItem('token', response.data.payload);
           push('/protected')
         })
