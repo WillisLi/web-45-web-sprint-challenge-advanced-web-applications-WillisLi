@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Bubbles from "./Bubbles";
 import ColorList from "./ColorList";
 import fetchColorService from '../services/fetchColorService';
-import axios from "axios";
+import axiosWithAuth from "../helpers/axiosWithAuth";
 
 const BubblePage = () => {
   const [colors, setColors] = useState([]);
@@ -21,9 +21,30 @@ const BubblePage = () => {
   };
 
   const saveEdit = (editColor) => {
+    axiosWithAuth().put(`http://localhost:5000/api/colors/${editColor.id}`, editColor)
+      .then(response => {
+          const newEdit = response.data;
+          
+          const colorsIndex = colors.findIndex(color => color.id === newEdit.id);
+          colors[colorsIndex] = newEdit;
+
+          setColors([
+            ...colors
+          ])
+      })
+      .catch(error => {
+        console.log(error);
+      })
   };
 
   const deleteColor = (colorToDelete) => {
+    axiosWithAuth().delete(`http://localhost:5000/api/colors/${colorToDelete.id}`)
+      .then(response => {
+          setColors(colors.filter(color => color.id !== colorToDelete.id))
+      })
+      .catch(error => {
+          console.log(error);
+      })
   };
 
   return (

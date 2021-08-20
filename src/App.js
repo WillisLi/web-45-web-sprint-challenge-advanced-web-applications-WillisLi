@@ -12,7 +12,6 @@ function App() {
     axiosWithAuth()
       .post('/logout')
       .then(response => {
-        console.log(response)
         localStorage.removeItem("token")
         window.location.href = "/login"
       })
