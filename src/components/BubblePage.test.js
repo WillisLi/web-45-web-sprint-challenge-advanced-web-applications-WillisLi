@@ -13,17 +13,17 @@ const testColor = {
 }
 
 test("Renders without errors", ()=> {
-    render(<BubblePage />)
+    render(<BubblePage />);
 });
 
 test("Renders appropriate number of colors passed in through mock", async ()=> {
-    // render(<BubblePage />)
+    render(<BubblePage />)
 
-    // fetchColorService.mockResolvedValueOnce(testColor);
+    fetchColorService.mockResolvedValueOnce(testColor);
 
-    // const colors = screen.getAllByTestId("color");
+    const colors = screen.getAllByTestId("color");
 
-    // await waitFor(() => {
-    //     expect(colors).toHaveLength(1); 
-    // })
+    await waitFor(() => {
+        expect(colors).toHaveLength(1); 
+    })
 });

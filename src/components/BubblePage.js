@@ -12,12 +12,9 @@ const BubblePage = () => {
   useEffect(() => {
     let isMounted = true
     fetchColorService().then(response => {
-        console.log(response)
-        if(isMounted)
+        if(isMounted) {
           setColors(response)
-      })
-      .catch(error => {
-        console.log(error);
+        }
       })
       return () => { isMounted = false }
   }, [])
